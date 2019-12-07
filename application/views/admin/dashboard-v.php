@@ -256,11 +256,11 @@
                           <span class="sub-item">Pensiun</span>
                         </a>
                       </li>
-                      <li>
+                      <!-- <li>
                         <a href="<?php echo base_url('index.php/admin/cskartu/') ?>">
                           <span class="sub-item">Diklat</span>
                         </a>
-                      </li>
+                      </li> -->
                     </ul>
                   </div>
                   </li>
