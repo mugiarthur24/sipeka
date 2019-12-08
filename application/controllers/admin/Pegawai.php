@@ -2190,10 +2190,41 @@ public function lap_pegawaiperpendidikan(){
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
                 $data['aside'] = 'nav/nav';
+                $data['page'] = 'admin/lyt-pgwpendidikan-v';
+                // $data['penghargaan'] = $this->Pegawai_m->data_penghargaan($id);
+                $data['skpd'] = $this->Pegawai_m->select_data('master_satuan_kerja');
+                // pagging setting
+                $this->load->view('admin/dashboard-v',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
+public function ctk_pegawaiperpendidikan(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin','members');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                
+                // echo "<pre>";print_r($result);echo "<pre/>";exit();
+                $data['title'] = 'Laporan Pegawai Per-Pendidikan';
+                $data['titelbag'] = 'penghargaan';
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['golongan'] = $this->Pegawai_m->get_golongan();
+                $data['aside'] = 'nav/nav';
                 
                 // $data['penghargaan'] = $this->Pegawai_m->data_penghargaan($id);
                 $data['skpd'] = $this->Pegawai_m->select_data('master_satuan_kerja');
                 // pagging setting
+                // $cek =$this->Pegawai_m->jml_peg1('17','25');
+                // echo"<pre>";print_r($cek);echo "<pre/>";exit();
                 $this->load->view('admin/lap_pegawai_perpendidikan',$data);
             }
         }else{
@@ -2202,6 +2233,7 @@ public function lap_pegawaiperpendidikan(){
             redirect(base_url('index.php/login'));
         }
     }
+
     public function lap_dpcp($id){
         if ($this->ion_auth->logged_in()) {
             $level = array('admin','members');
@@ -2239,6 +2271,35 @@ public function lap_pegawaiperpendidikan(){
         }
     }
     public function lap_pegawaipergolongan(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin','members');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                
+                // echo "<pre>";print_r($result);echo "<pre/>";exit();
+                $data['title'] = 'Laporan Pegawai Per-Golongan';
+                $data['titelbag'] = 'penghargaan';
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['golongan'] = $this->Pegawai_m->get_golongan();
+                $data['aside'] = 'nav/nav';
+                $data['page'] = 'admin/lyt-pgwgolongan-v';
+                // $data['penghargaan'] = $this->Pegawai_m->data_penghargaan($id);
+                $data['skpd'] = $this->Pegawai_m->select_data('master_satuan_kerja');
+                // pagging setting
+                $this->load->view('admin/dashboard-v',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
+    public function ctk_pegawaipergolongan(){
         if ($this->ion_auth->logged_in()) {
             $level = array('admin','members');
             if (!$this->ion_auth->in_group($level)) {

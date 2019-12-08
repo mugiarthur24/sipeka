@@ -293,11 +293,11 @@
                           <span class="sub-item">Pensiun</span>
                         </a>
                       </li>
-                      <li>
+                      <!-- <li>
                         <a href="#">
                           <span class="sub-item">Diklat</span>
                         </a>
-                      </li>
+                      </li> -->
                     </ul>
                   </div>
                   </li>
@@ -484,20 +484,20 @@
                           </a>
                         </li>
                         <li>
-                          <a href="<?php echo base_url('index.php/admin/pegawai/lap_pegawaiperpendidikan') ?>" target="_blank">
+                          <a href="<?php echo base_url('index.php/admin/pegawai/lap_pegawaiperpendidikan') ?>">
                             <span class="sub-item">Pegawai Per-Pendidikan</span>
                           </a>
                         </li>
                         <li>
-                          <a href="<?php echo base_url('index.php/admin/pegawai/lap_pegawaipergolongan') ?>" target="_blank">
+                          <a href="<?php echo base_url('index.php/admin/pegawai/lap_pegawaipergolongan') ?>">
                             <span class="sub-item">Pegawai Per-Golongan</span>
                           </a>
                         </li>
-                       <li>
+                      <!--  <li>
                           <a href="<?php echo base_url('index.php/admin/export_excel/export_by_golongan') ?>">
                             <span class="sub-item">Form DPCP</span>
                           </a>
-                        </li>
+                        </li> -->
                       </ul>
                     </div>
                   </li>

@@ -3,10 +3,10 @@
 		<div class="card-body">
 			<div class="col-md-12">
 				<div class="media-body">
-					<h4>Laporan Pegawai</h4>
+					<h4>Laporan Data Pegawai Per SKPD</h4>
 				</div>
 				<div>
-					<a href="<?php echo base_url('index.php/admin/export/dataexcel') ?>" class="btn btn-info">Export Semua Data Pegawai</a>
+					<a href="<?php echo base_url('index.php/admin/export/dataexcel') ?>" class="btn btn-info">Cetak</a>
 				</div>
 			</div>
 			<hr/>
