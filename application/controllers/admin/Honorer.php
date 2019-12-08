@@ -5,7 +5,7 @@ class Honorer extends CI_Controller {
     function __construct(){
         parent::__construct();
         $this->load->model('admin/Admin_m');
-        $this->load->model('admin/honorer_m');
+        $this->load->model('admin/Honorer_m');
     }
     public function index($offset=0){
         if ($this->ion_auth->logged_in()) {
@@ -182,7 +182,64 @@ public function update_honorer(){
             redirect(base_url('index.php/admin//login'));
         }
     }
-    
+    public function lap_honorer(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin','members');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                
+                // echo "<pre>";print_r($result);echo "<pre/>";exit();
+                $data['title'] = 'Laporan Data Pegawai Honorer / Magang';
+                $data['titelbag'] = 'penghargaan';
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['aside'] = 'nav/nav';
+                $data['page'] = 'admin/lyt-honorer-v';
+                // $data['penghargaan'] = $this->Pegawai_m->data_penghargaan($id);
+                $data['skpd'] = $this->Honorer_m->select_data('honorer');
+                // pagging setting
+                $this->load->view('admin/dashboard-v',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
+public function ctk_honorer(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin','members');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                
+                // echo "<pre>";print_r($result);echo "<pre/>";exit();
+                $data['title'] = 'Laporan Data Honorer / Magang';
+                $data['titelbag'] = 'penghargaan';
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['aside'] = 'nav/nav';
+                
+                // $data['penghargaan'] = $this->Pegawai_m->data_penghargaan($id);
+                $data['skpd'] = $this->Honorer_m->select_data('honorer');
+                // pagging setting
+                // $cek =$this->Pegawai_m->jml_peg1('17','25');
+                // echo"<pre>";print_r($cek);echo "<pre/>";exit();
+                $this->load->view('admin/lap_honorer',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
 
 }
 ?>

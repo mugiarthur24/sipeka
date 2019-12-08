@@ -479,7 +479,7 @@
                           </a>
                         </li>
                         <li>
-                          <a href="<?php echo base_url('index.php/admin/export/dataexcel_honorer') ?>" target="_blank">
+                          <a href="<?php echo base_url('index.php/admin/honorer/lap_honorer') ?>" >
                             <span class="sub-item">Kolektif Honorer</span>
                           </a>
                         </li>
