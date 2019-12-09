@@ -2174,6 +2174,7 @@ class Pegawai extends CI_Controller {
             redirect(base_url('index.php/login'));
         }
     }
+
 public function lap_pegawaiperpendidikan(){
         if ($this->ion_auth->logged_in()) {
             $level = array('admin','members');
@@ -2246,7 +2247,7 @@ public function ctk_pegawaiperpendidikan(){
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['title'] = $result->nama_pegawai;
                 $data['hasil'] = $result;
-                $data['pelatihan'] = $this->Pegawai_m->data_pelatihan($id);
+               
                 $data['statpeg'] = $this->Admin_m->detail_data_order('master_status_pegawai','id_status_pegawai',$result->id_status_pegawai);
                 $data['agama'] = $this->Admin_m->detail_data_order('master_agama','id_agama',$result->agama);
                 $data['unit_org'] = $this->Admin_m->detail_data_order('master_satuan_kerja','id_satuan_kerja',$result->id_satuan_kerja);
@@ -2254,13 +2255,9 @@ public function ctk_pegawaiperpendidikan(){
                 $data['golongan'] = $this->Admin_m->select_data_order('data_riwayat_golongan','id_pegawai',$id);
                 $data['jabatan'] = $this->Admin_m->select_data_order('data_riwayat_jabatan','id_pegawai',$id);
                 $data['pendidikan'] = $this->Admin_m->select_data_order('data_pendidikan','id_pegawai',$id);
-                $data['pelatihan'] = $this->Admin_m->select_data_order('data_pelatihan','id_pegawai',$id);
-                $data['penghargaan'] = $this->Admin_m->select_data_order('data_penghargaan','id_pegawai',$id);
-                $data['seminar'] = $this->Admin_m->select_data_order('data_seminar','id_pegawai',$id);
                 $data['organisasi'] = $this->Admin_m->select_data_order('data_organisasi','id_pegawai',$id);
                 $data['gaji_pokok'] = $this->Admin_m->select_data_order('data_gaji_pokok','id_pegawai',$id);
-                $data['hukuman'] = $this->Admin_m->select_data_order('data_hukuman','id_pegawai',$id);
-                $data['data_dp3'] = $this->Admin_m->select_data_order('data_dp3','id_pegawai',$id);
+
                 // pagging setting
                 $this->load->view('admin/lap-dpcp-v',$data);
             }

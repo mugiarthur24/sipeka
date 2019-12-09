@@ -24,6 +24,7 @@ class Cspensiun extends CI_Controller {
                     $data['users'] = $datauser;
                     $data['aside'] = 'nav/nav';
                     $data['page'] = 'admin/cs/pensiun-v';
+                    $data['hasil']= $this->Admin_m->detail_data_order('data_pegawai','id_pegawai',$datauser->id_pegawai);
                 // pagging setting
                     $this->load->view('admin/dashboard-v',$data);
                 

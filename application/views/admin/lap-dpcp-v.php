@@ -118,7 +118,7 @@
 						<td></td>
 						<td>D. JABATAN</td>
 						<td>:</td>
-						<td><?php echo @$this->Admin_m->detail_data_order('master_jenis_jabatan','id_jenis_jabatan',@$data->id_jenis_jabatan)->nama_jenis_jabatan; ?></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td></td>

@@ -65,7 +65,7 @@
 						<tbody>
 							<tr>
 								<th scope="row">1</th>
-								<td>DATA PERORANGAN CALON PENERIMA PENSIUN (DPCP), ASLI</td>
+								<td><a href="<?php echo base_url('index.php/admin/pegawai/lap_dpcp/'.@$hasil->id_pegawai) ?>">DATA PERORANGAN CALON PENERIMA PENSIUN (DPCP), ASLI</a></td>
 								<td>Download</td>
 							</tr>
 							<tr>
