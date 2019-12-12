@@ -22,7 +22,7 @@ class Honorer extends CI_Controller {
                 $data['users'] = $this->ion_auth->user()->row();
                 $data['aside'] = 'nav/nav';
                 $data['page'] = 'admin/honorer-v';
-                $jumlah = $this->honorer_m->jumlah_data(@$post['string'],@$post['skpd']);
+                $jumlah = $this->Honorer_m->jumlah_data(@$post['string'],@$post['skpd']);
                 $config['base_url'] = base_url().'/index.php/admin/honorer/index/';
                 $config['total_rows'] = $jumlah;
                 $config['per_page'] = '10';
@@ -51,17 +51,17 @@ class Honorer extends CI_Controller {
                 $config['last_tagl_close']  = '</span></li>';
                 //inisialisasi config
                 $this->pagination->initialize($config);
-                $data['skpd'] = $this->honorer_m->select_data('master_lokasi_kerja');
-                $data['status'] = $this->honorer_m->select_data('master_status_pegawai');
-                $data['agama'] = $this->honorer_m->select_data('master_agama');
-                $data['golongan'] = $this->honorer_m->select_data('master_golongan');
-                $data['eselon'] = $this->honorer_m->select_data('master_eselon');
-                $data['sjabatan'] = $this->honorer_m->select_data('master_status_jabatan');
+                $data['skpd'] = $this->Honorer_m->select_data('master_lokasi_kerja');
+                $data['status'] = $this->Honorer_m->select_data('master_status_pegawai');
+                $data['agama'] = $this->Honorer_m->select_data('master_agama');
+                $data['golongan'] = $this->Honorer_m->select_data('master_golongan');
+                $data['eselon'] = $this->Honorer_m->select_data('master_eselon');
+                $data['sjabatan'] = $this->Honorer_m->select_data('master_status_jabatan');
 
                 // pengaturan searching
                 $data['jmldata'] = $jumlah;
                 $data['nmr'] = $offset;
-                $data['hasil'] = $this->honorer_m->searcing_data($config['per_page'],$offset,@$post['string'],@$post['skpd']);
+                $data['hasil'] = $this->Honorer_m->searcing_data($config['per_page'],$offset,@$post['string'],@$post['skpd']);
                 $data['pagging'] = $this->pagination->create_links();
                 // pagging setting
                 $this->load->view('admin/dashboard-v',$data);
@@ -92,7 +92,7 @@ class Honorer extends CI_Controller {
                     'tempat_lahir'=>$post['tempat_lahir'],
                     'no_hp'=>$post['no_hp'],
                 );
-                $this->honorer_m->insert_data('honorer',$datainput);
+                $this->Honorer_m->insert_data('honorer',$datainput);
                 $pesan = 'Data Honorer baru berhasil di tambahkan';
                 $this->session->set_flashdata('message', $pesan );
                 redirect(base_url('index.php/admin/honorer'));
@@ -111,7 +111,7 @@ class Honorer extends CI_Controller {
                 $this->session->set_flashdata('message', $pesan );
                 redirect(base_url('index.php/admin/dashboard'));
             }else{
-                $result = $this->honorer_m->detail_data('honorer','id_honorer',$id);
+                $result = $this->Honorer_m->detail_data('honorer','id_honorer',$id);
                 // echo "<pre>";print_r($result);echo "<pre/>";exit();
                 $data['title'] = $result->nama;
                 $data['infopt'] = $this->Admin_m->info_pt(1);
@@ -119,7 +119,7 @@ class Honorer extends CI_Controller {
                 $data['users'] = $this->ion_auth->user()->row();
                 $data['aside'] = 'nav/nav';
                 $data['detail'] = $result;
-                $data['skpd'] = $this->honorer_m->select_data('master_lokasi_kerja');
+                $data['skpd'] = $this->Honorer_m->select_data('master_lokasi_kerja');
                 $data['page'] = 'admin/edit-honorer-v';
                 // pagging setting
                 $this->load->view('admin/dashboard-v',$data);
@@ -151,7 +151,7 @@ public function update_honorer(){
                 );
                 // echo "<pre>";print_r($datainput);echo "<pre/>";exit();
 
-                $this->honorer_m->update_data('honorer','id_honorer',$post['id_honorer'],$datainput);
+                $this->Honorer_m->update_data('honorer','id_honorer',$post['id_honorer'],$datainput);
                 $pesan = 'Data Honorer golongan baru berhasil di diubah';
                 $this->session->set_flashdata('message', $pesan );
                 redirect(base_url('index.php/admin/honorer/'));
@@ -171,7 +171,7 @@ public function update_honorer(){
                 $this->session->set_flashdata('message', $pesan );
                 redirect(base_url('index.php/admin/dashboard'));
             }else{
-                $this->honorer_m->delete_data('honorer','id_honorer',$id_honorer);
+                $this->Honorer_m->delete_data('honorer','id_honorer',$id_honorer);
                 $pesan = 'Data Honorer berhasil di diubah dihapus';
                 $this->session->set_flashdata('message', $pesan );
                 redirect(base_url('index.php/admin/honorer/'));
@@ -233,6 +233,36 @@ public function ctk_honorer(){
                 // $cek =$this->Pegawai_m->jml_peg1('17','25');
                 // echo"<pre>";print_r($cek);echo "<pre/>";exit();
                 $this->load->view('admin/lap_honorer',$data);
+            }
+        }else{
+            $pesan = 'Login terlebih dahulu';
+            $this->session->set_flashdata('message', $pesan );
+            redirect(base_url('index.php/login'));
+        }
+    }
+    public function ctk_sk_kolektif(){
+        if ($this->ion_auth->logged_in()) {
+            $level = array('admin','members');
+            if (!$this->ion_auth->in_group($level)) {
+                $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
+                $this->session->set_flashdata('message', $pesan );
+                redirect(base_url('index.php/admin/dashboard'));
+            }else{
+                
+                // echo "<pre>";print_r($result);echo "<pre/>";exit();
+                $data['title'] = 'SK Kolektif Magang';
+                $data['titelbag'] = 'penghargaan';
+                $data['infopt'] = $this->Admin_m->info_pt(1);
+                $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
+                $data['users'] = $this->ion_auth->user()->row();
+                $data['aside'] = 'nav/nav';
+                
+                // $data['penghargaan'] = $this->Pegawai_m->data_penghargaan($id);
+                $data['skpd'] = $this->Honorer_m->select_data('honorer');
+                // pagging setting
+                // $cek =$this->Pegawai_m->jml_peg1('17','25');
+                // echo"<pre>";print_r($cek);echo "<pre/>";exit();
+                $this->load->view('admin/ctk_sk_kolektif_magang-v',$data);
             }
         }else{
             $pesan = 'Login terlebih dahulu';

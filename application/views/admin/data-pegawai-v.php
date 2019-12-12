@@ -66,7 +66,7 @@
 				</div>
 				<div class="form-group">
 					<label class="text-info" for="tanggal_lahir">TANGGAL LAHIR</label>
-					<input type="text" class="form-control border-dark" id="tanggal_lahir" name="tanggal_lahir" placeholder="12-01-1993" value="<?php echo $hasil->tanggal_lahir ?>">
+					<input type="date" class="form-control border-dark" id="tanggal_lahir" name="tanggal_lahir" placeholder="12-01-1993" value="<?php echo date('Y-m-d',strtotime($hasil->tanggal_lahir)) ?>">
 				</div>
 				<div class="form-group">
 					<label class="text-info" for="no_hp">NOMOR HANDPHONE</label>

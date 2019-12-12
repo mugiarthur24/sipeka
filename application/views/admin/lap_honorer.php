@@ -33,8 +33,7 @@
 				<tr>
 					<td class="text-center">No</td>
 					<td class="text-center">Nama</td>
-					<td class="text-center">Tempat Lahir</td>
-					<td class="text-center">Tgl Lahir</td>
+					<td class="text-center">Tempat / Tgl Lahir</td>
 					<td class="text-center">TMT</td>
 					<td class="text-center">TAT</td>
 					<td class="text-center">Unit Kerja Induk</td>
@@ -45,11 +44,10 @@
 					<tr>
 						<td class="text-center"><?php echo $no; ?></td>
 						<td class="text-center"><?php echo @$data->nama; ?></td>
-						<td class="text-center"><?php echo @$data->tempat_lahir; ?></td>
-						<td class="text-center"><?php echo @$data->tanggal_lahir; ?></td>
+						<td class="text-center"><?php echo @$data->tempat_lahir; ?>, <?php echo @$data->tanggal_lahir; ?></td>
 						<td class="text-center"><?php echo @$data->tmt; ?></td>
 						<td class="text-center"><?php echo @$data->tat; ?></td>
-						<td class="text-left"><?php echo $data->nama_satuan_kerja; ?></td>
+						<td class="text-left"><?php echo $this->Admin_m->detail_data_order('master_lokasi_kerja','id_lokasi_kerja',$data->id_lokasi_kerja)->lokasi_kerja; ?></td>
 					</tr>
 			
 			<?php $no++ ?>

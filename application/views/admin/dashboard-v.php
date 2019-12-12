@@ -142,9 +142,9 @@
                 </div>
               </div>
              
-              <ul class="nav nav-primary">
+              <ul class="nav nav-danger">
                 <li class="nav-item active">
-                  <a class="btn btn-primary" data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                  <a class="btn btn-danger" data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
                     <i class="fas fa-home"></i>
                     <p>Dashboard</p>
                     <span class="caret"></span>
