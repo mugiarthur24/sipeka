@@ -6,7 +6,7 @@
 					Data Honorer <span class="text-secondary">jumlah Honorer Ditemukan <?php echo $jmldata; ?></span>
 				</div>
 				<div class="col-md-6">
-					<button type="button" class="btn btn-info btn-sm" style="float: right" data-toggle="modal" data-target="#addpegawai"><i class="fa fa-plus"></i> Tambah Data Honorer</button>
+					<button type="button" class="btn btn-danger btn-sm" style="float: right" data-toggle="modal" data-target="#addpegawai"><i class="fa fa-plus"></i> Tambah Data Honorer</button>
 				</div>
 			</div>
 			<div>

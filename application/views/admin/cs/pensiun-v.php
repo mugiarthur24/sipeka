@@ -53,6 +53,7 @@
 				<div class="card-body">
 					<div align="text-center"><B>SYARAT-SYARAT PENSIUN DINI</B></div>
 					<hr/>
+					<div class="table-responsive">
 					<table class="table">
 						<thead class="thead-light">
 							<tr>
@@ -65,8 +66,8 @@
 						<tbody>
 							<tr>
 								<th scope="row">1</th>
-								<td><a href="<?php echo base_url('index.php/admin/pegawai/lap_dpcp/'.@$hasil->id_pegawai) ?>">DATA PERORANGAN CALON PENERIMA PENSIUN (DPCP), ASLI</a></td>
-								<td>Download</td>
+								<td>DATA PERORANGAN CALON PENERIMA PENSIUN (DPCP), ASLI</td>
+								<td><a href="<?php echo base_url('index.php/admin/pegawai/lap_dpcp/'.@$hasil->id_pegawai) ?>">Download</a></td>
 							</tr>
 							<tr>
 								<th scope="row">2</th>
@@ -185,6 +186,7 @@
 							</tr>
 						</tbody>
 					</table>
+				</div>
 				</div>
 			</div>
 		</div>

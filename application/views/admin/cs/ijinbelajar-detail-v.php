@@ -20,6 +20,7 @@
     		</div>
     	<?php endif ?>
       <form action="<?php echo base_url('index.php/admin/cssuket/ijinbelajar_action/'.$pegawai->id_pegawai) ?>" method="post" enctype='multipart/form-data'>
+        <div class="table-responsive">
        <table class="table">
             <thead class="thead-light">
               <tr>
@@ -482,6 +483,7 @@
               </tr>
             </tbody>
           </table>
+        </div>
         <button type="submit" name="submit" value="submit" class="btn btn-primary float-right mt-2">Save Dokumen</button>
       </form>
     </div>

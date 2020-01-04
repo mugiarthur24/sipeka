@@ -14,6 +14,7 @@
 			
 		</div>
 		<div class="card-body">
+			<div class="table-responsive">
 			<table class="table">
 				<tr>
 					<td class="text-center">No</td>
@@ -35,6 +36,7 @@
 					<?php $no++ ?>
 				<?php endforeach ?>
 			</table>
+		</div>
 		</div>
 	</div>
 </div>

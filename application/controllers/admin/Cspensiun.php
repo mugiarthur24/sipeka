@@ -2221,7 +2221,7 @@ class Cspensiun extends CI_Controller {
                 $data['skpd'] = $this->Admin_m->select_data('master_lokasi_kerja');
                 $data['hasil'] = $this->Admin_m->select_data('form_pensiun');
                 $data['aside'] = 'nav/nav';
-                $data['page'] = 'admin/cs/pensiun_main-v';
+                $data['page'] = 'admin/cs/pensiun-main-v';
                                     // pagging setting
                 $this->load->view('admin/dashboard-v',$data);
             }

@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="author" content="Kodinger">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title><?php echo $title; ?></title>
-  <link rel="stylesheet" type="text/css" href="<?php echo base_url('my-login-master/bootstrap/css/bootstrap.min.css'); ?>">
-  <link rel="stylesheet" type="text/css" href="<?php echo base_url('my-login-master/css/my-login.css'); ?>">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('asset/Login_v15/') ?>vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('asset/Login_v15/') ?>fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('asset/Login_v15/') ?>fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('asset/Login_v15/') ?>vendor/animate/animate.css">
+<!--===============================================================================================-->  
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('asset/Login_v15/') ?>vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('asset/Login_v15/') ?>vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('asset/Login_v15/') ?>vendor/select2/select2.min.css">
+<!--===============================================================================================-->  
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('asset/Login_v15/') ?>vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('asset/Login_v15/') ?>css/util.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('asset/Login_v15/') ?>css/main.css">
+<!--===============================================================================================-->
 </head>
-
-<body class="my-login-page">
-  <?php if ($this->session->flashdata('message')): ?>
+<body>
+  <div class="limiter">
+    <?php if ($this->session->flashdata('message')): ?>
       <div class="row">
         <div class="alert alert-danger alert-dismissible tengah" role="alert" style="margin-bottom: 7px;">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -18,57 +34,67 @@
         </div>
       </div>
     <?php endif ;?>
-  <section class="h-100">
-    <div class="container h-100">
-      <div class="row justify-content-md-center h-100">
-        <div class="card-wrapper">
-          <div class="brand">
-            <img src="<?php echo base_url('asset/img/lembaga/'.$infopt->logo_pt) ?>" alt="logo" class="img-thumbnail">
+    <div class="container-login100">
+      <div class="wrap-login100">
+        <div class="login100-form-title" style="background-image: url(<?php echo base_url('asset/Login_v15/') ?>images/bg-02.jpg);">
+          <span class="login100-form-title-1">
+            LOGIN
+          </span>
+        </div>
+
+        <form action="<?php echo base_url('index.php/login/proses_login/') ?>" class="login100-form validate-form" method="POST">
+          <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+            <span class="label-input100">Username</span>
+            <input class="input100" type="text" name="username" id="username" placeholder="Enter username">
+            <span class="focus-input100"></span>
           </div>
-          <div class="card fat">
-            <div class="card-body">
-              <h4 class="card-title">Login</h4>
-              <form action="<?php echo base_url('index.php/login/proses_login/') ?>" method="POST" class="my-login-validation" novalidate="">
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <input id="username" type="username" class="form-control" name="username" value="" required autofocus>
-                  
-                </div>
 
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <input id="exampleInputPassword1" type="password" class="form-control" name="password" required data-eye>
-                    <div class="invalid-feedback">
-                      Password is required
-                    </div>
-                </div>
+          <div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+            <span class="label-input100">Password</span>
+            <input class="input100" type="password" id="exampleInputPassword1" name="password" placeholder="Enter password">
+            <span class="focus-input100"></span>
+          </div>
 
-                <div class="form-group">
-                  <div class="custom-checkbox custom-control">
-                    <input type="checkbox" name="remember" id="remember" class="custom-control-input">
-                    <label for="remember" class="custom-control-label">Remeber Me</label>
-                  </div>
-                </div>
+          <div class="flex-sb-m w-full p-b-30">
+            <div class="contact100-form-checkbox">
+              <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+              <label class="label-checkbox100" for="ckb1">
+                Remember me
+              </label>
+            </div>
 
-                <div class="form-group m-0">
-                  <button type="submit" class="btn btn-primary btn-block">
-                    Login
-                  </button>
-                </div>
-                
-              </form>
+            <div>
+              <a href="#" class="txt1">
+                Forgot Password?
+              </a>
             </div>
           </div>
-          <div class="footer">
-            Copyright <?php echo @$brand.' '.date('Y'); ?> 
+
+          <div class="container-login100-form-btn">
+            <button class="login100-form-btn" type="submit">
+              Login
+            </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
-  </section>
-
-  <script src="<?php echo base_url('my-login-master/js/jquery.min.js'); ?>"></script>
-  <script src="<?php echo base_url('my-login-master/bootstrap/js/bootstrap.min.js'); ?>"></script>
-  <script src="<?php echo base_url('my-login-master/js/my-login.js'); ?>"></script>
+  </div>
+  
+<!--===============================================================================================-->
+  <script src="<?php echo base_url('asset/Login_v15/') ?>vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+  <script src="<?php echo base_url('asset/Login_v15/') ?>vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+  <script src="<?php echo base_url('asset/Login_v15/') ?>vendor/bootstrap/js/popper.js"></script>
+  <script src="<?php echo base_url('asset/Login_v15/') ?>vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+  <script src="<?php echo base_url('asset/Login_v15/') ?>vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+  <script src="<?php echo base_url('asset/Login_v15/') ?>vendor/daterangepicker/moment.min.js"></script>
+  <script src="<?php echo base_url('asset/Login_v15/') ?>vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+  <script src="<?php echo base_url('asset/Login_v15/') ?>vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+  <script src="<?php echo base_url('asset/Login_v15/') ?>js/main.js"></script>
 </body>
 </html>

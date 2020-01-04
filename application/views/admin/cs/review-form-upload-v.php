@@ -12,6 +12,7 @@
 			<b class="text-primary">Rincian Form Upload</b>
 		</div>
 		<div class="card-body">
+			<div class="table-responsive">
 			<table class="table">
 				<thead class="thead-light">
 					<tr>
@@ -174,6 +175,7 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
 		</div>
 	</div>
 </div>

@@ -1,70 +1,60 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title><?php echo $title; ?></title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-	<link rel="stylesheet" href="<?php echo base_url('asset/css/bootstrap.min.css'); ?>">
-	<!-- css font awesome -->
-	<link rel="stylesheet" href="<?php echo base_url('asset/css/font-awesome.min.css'); ?>">
-	<!-- css font css pribadi -->
-	<link rel="stylesheet" href="<?php echo base_url('asset/css/custom.css'); ?>">
-	<!-- jquery terlebih dahulu -->
-	<script src="<?php echo base_url('asset/js/jquery-3.2.1.min.js'); ?>" type="text/javascript"></script>
-	<!-- js bootstrap v.4 butuh pooper.js -->
-	<script src="<?php echo base_url('asset/js/popper.min.js'); ?>" type="text/javascript"></script>
-	<!-- js bootstrap v.4 -->
-	<script src="<?php echo base_url('asset/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
-	<link rel="shortcut icon" href="<?php echo base_url($brand); ?>">
-</head>
+    <head>
+    	<link rel="shortcut icon" href="<?php echo base_url($brand); ?>">
+        <title><?php echo $title; ?></title>
+        <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+        <link rel="stylesheet" href="<?php echo base_url('asset/avalon/') ?>css/bootstrap.min.css">
+        <link rel="stylesheet" href="<?php echo base_url('asset/avalon/') ?>css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="<?php echo base_url('asset/avalon/') ?>css/fontAwesome.css">
+        <link rel="stylesheet" href="<?php echo base_url('asset/avalon/') ?>css/hero-slider.css">
+        <link rel="stylesheet" href="<?php echo base_url('asset/avalon/') ?>css/owl-carousel.css">
+        <link rel="stylesheet" href="<?php echo base_url('asset/avalon/') ?>css/datepicker.css">
+        <link rel="stylesheet" href="<?php echo base_url('asset/avalon/') ?>css/templatemo-style.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+        <script src="<?php echo base_url('asset/avalon/') ?>js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    </head>
 <body>
-	<div style="background-color: #090537">
-		<div class="px-1 py-4 text-light">
-			<div class="container-fluid">
-				<table width="100%">
-					<tr style="vertical-align: middle;">
-						<td class="p-1 text-left"><img src="<?php echo base_url($brand); ?>" width="80px"></td>
-						<td class="p-1 border-right"><h3><i>Kabupaten Buton Selatan</i></h3></td>
-						<td class="px-4"><h4><?php echo $infopt->nama_info_pt; ?></h4></td>
-						<td style="font-size: 13px;">
-							<i class="fa fa-map-marker"></i> Alamat : <?php echo $infopt->alamat_pt; ?><br/>
-							<i class="fa fa-phone"></i> Telepon : <?php echo $infopt->kontak_1; ?><br/>
-							<i class="fa fa-envelope"></i> Email : <?php echo $infopt->kontak_3; ?><br/>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
-	</div>
-	<nav class="navbar navbar-expand-lg navbar-light bg-warning">
-		<div class="container">
-			<a class="navbar-brand" href="<?php echo base_url() ?>">
-				<span class="text-light">Sistem Pelayanan Kepegawaian Kab. Buton Selatan</span></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto"></ul>
-					<form class="form-inline my-2 my-lg-0">
-						<a class="btn btn-light btn-sm text-warning float-right" href="<?php echo base_url('index.php/login') ?>"><i class="fa fa-lock "></i> Login</a>
-					</form>
-				</div>
-			</div>
-		</nav>
-		<div class="py-4" style="background-color: #eeeeee;">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="card mb-4">
-							<div class="card-body text-success">Jumlah Pegawai Kabupaten Buton : <?php echo $this->Pegawai_m->jml() ?> Orang</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<div class="card text-center border-success">
-							<div class="card-header">Golongan</div>
-							<div class="card-body">
+    <section class="banner" id="top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="left-banner-content">
+                        <div class="text-content">
+                            <h6></h6>
+                            <div class="line-dec"></div>
+                            <h1>Sistem Pelayanan Kepegawaian</h1>
+                            <div class="white-border-button">
+                                <a href="<?php echo base_url('index.php/login') ?>" data-id="best-offer-section">Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="right-banner-content">
+                        <div class="logo"><a href="index.html"><img src="<?php echo base_url('asset/img/lembaga/Lambang_Kabupaten_Buton_Selatan.png') ?>" width="100px" alt=""></a></div>
+                        <h2>e-SiPeKa</h2>
+                        <span>Pemerintah Kabupaten Buton Selatan</span>
+                        <div class="line-dec"></div>
+                        <p>“ Terwujudnya Kabupaten Buton Selatan Sebagai Pusat Pertumbuhan Baru Melalui Optimalisasi Sumberdaya Lokal Menuju Masyarakat Sejahtera, Mandiri Dan Bermartabat. ”</p>
+                        <ul class="social-icons">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="testimonial" id="testimonial-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="testimonial-image"></div>
+                </div>
+                <div class="col-md-8">
+                    <div id="owl-testimonial" class="owl-carousel owl-theme">
+                        <div class="item col-md-12">
 								<script src="<?php echo base_url('asset/grafik/code/highcharts.js') ?>"></script>
 								<script src="<?php echo base_url('asset/grafik/code/modules/exporting.js') ?>"></script>
 								<div id="container3" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
@@ -106,15 +96,10 @@
 										}]
 									});
 								</script>	
-							</div>
-
-						</div>
-					</div>
-					<div class="col">
-						<div class="card text-center border-success">
-							<div class="card-header">Eselon</div>
-							<div class="card-body">
-								<div id="container4"></div>
+							
+                        </div>
+                        <div class="item col-md-12">
+                            <div id="container4"></div>
 								<script type="text/javascript">
 									Highcharts.chart('container4', {
 										chart: {
@@ -124,7 +109,7 @@
 											text: 'Grafik Pegawai Per-Eselon'
 										},
 										subtitle: {
-											text: 'Source: Database Kabupaten Buton'
+											text: 'Source: Database Kabupaten Buton Selatan'
 										},
 										xAxis: {
 											type: 'category',
@@ -167,11 +152,66 @@
 							    }]
 							});
 						</script>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>      
+
+    <footer>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Copyright &copy; 2019 BKPSDM BUTON SELATAN</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="<?php echo base_url('asset/avalon/') ?>js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+    <script src="<?php echo base_url('asset/avalon/') ?>js/vendor/bootstrap.min.js"></script>
+    <script src="<?php echo base_url('asset/avalon/') ?>js/datepicker.js"></script>
+    <script src="<?php echo base_url('asset/avalon/') ?>js/plugins.js"></script>
+    <script src="<?php echo base_url('asset/avalon/') ?>js/main.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function() 
+	{
+        // navigation click actions 
+        $('.scroll-link').on('click', function(event){
+            event.preventDefault();
+            var sectionID = $(this).attr("data-id");
+            scrollToID('#' + sectionID, 750);
+        });
+        // scroll to top action
+        $('.scroll-top').on('click', function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop:0}, 'slow');         
+        });
+        // mobile nav toggle
+        $('#nav-toggle').on('click', function (event) {
+            event.preventDefault();
+            $('#main-nav').toggleClass("open");
+        });
+    });
+    // scroll function
+    function scrollToID(id, speed){
+        var offSet = 0;
+        var targetOffset = $(id).offset().top - offSet;
+        var mainNav = $('#main-nav');
+        $('html,body').animate({scrollTop:targetOffset}, speed);
+        if (mainNav.hasClass("open")) {
+            mainNav.css("height", "1px").removeClass("in").addClass("collapse");
+            mainNav.removeClass("open");
+        }
+    }
+    if (typeof console === "undefined") {
+        console = {
+            log: function() { }
+        };
+    }
+    </script>
 </body>
 </html>

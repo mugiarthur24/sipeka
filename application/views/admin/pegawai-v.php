@@ -6,26 +6,40 @@
 					Data Pegawai <span class="text-secondary">jumlah Pegawai Ditemukan <?php echo $jmldata; ?></span>
 				</div>
 				<div class="col-md-6">
-					<button type="button" class="btn btn-primary btn-sm" style="float: right" data-toggle="modal" data-target="#addpegawai"><i class="fa fa-plus"></i> Tambah Data Pegawai</button>
+					<div class="btn-group float-right mb-2">
+						<button type="button" class="btn btn-danger btn-sm  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fa fa-plus"></i>Tambah Data Pegawai
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" data-toggle="modal" data-target="#addpegawai">Manual</a>
+							<a class="dropdown-item" data-toggle="modal" href="#" data-target="#excel">Mengunakan Excel</a>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div>
-				<form action="<?php echo base_url('index.php/admin/pegawai/index/') ?>" method="get">
+				<form action="<?php echo base_url('index.php/admin/pegawai/') ?>" method="post">
 					<div class="form-group">
 						<label> Cari Pegawai</label>
 						<div class="row">
 							<div class="col-md-6">
-								<input type="text" name="string" class="form-control" placeholder="Masukan Nama, NIP Baru atau NIP Lama">
+								<input type="text" name="string" class="form-control" placeholder="Masukan Nama, NIP Baru atau NIP Lama" <?php if (!empty($post['string']) ): ?>
+								value="<?php echo $post['string'] ?>"
+							<?php endif ?>>
 								<small class="form-text text-muted">Tekan Enter untuk melakukan pencarian pegawai</small>
 							</div>
 							<?php if ($this->ion_auth->in_group('admin')): ?>
 								<div class="col-md-6">
-									<select class="form-control" name="skpd" onchange="this.form.submit()">
-										<option value=""> Pilih Lokasi </option>
-										<option value=""> Semua Lokasi </option>
-										<?php foreach ($skpd as $data): ?>
-											<option value="<?php echo $data->id_satuan_kerja ?>"><?php echo $data->nama_satuan_kerja; ?></option>
-										<?php endforeach ?>
+									<select class="form-control" name="id_satuan_kerja" onchange="this.form.submit()">
+										<?php if (!empty($post['id_satuan_kerja'])): ?>
+											<option value="<?php echo $post['id_satuan_kerja'] ?>"><?php echo $this->Admin_m->detail_data_order('master_satuan_kerja','id_satuan_kerja',$post['id_satuan_kerja'])->nama_satuan_kerja ?></option>
+											<option value="">Semua lokasi</option>
+											<?php else: ?>
+												<option value="">Semua lokasi</option>
+											<?php endif ?>
+											<?php foreach ($skpd as $data): ?>
+												<option value="<?php echo $data->id_satuan_kerja ?>"><?php echo $data->nama_satuan_kerja; ?></option>
+											<?php endforeach ?>
 									</select>
 									<small class="form-text text-muted">Pilih Unit Organisasi</small>
 								</div>
@@ -41,24 +55,22 @@
 									<td class="text-center">No</td>
 									<td class="text-center">Nama Pegawai</td>
 									<td class="text-center">NIP</td>
-									<td class="text-center">NIP Lama</td>
-									<td class="text-center">Alamat Pegawai</td>
+									<td class="text-center">SKPD</td>
 									<td class="text-center">Status</td>
 									<td class="text-center">Aksi</td>
 								</tr>
 							</thead>
 							<tbody>
-								<?php $no = $nmr+1 ?>
+								<?php $no = $row+1 ?>
 								<?php foreach ($hasil as $data): ?>
 									<tr>
 										<td class="text-center"><?php echo $no; ?></td>
-										<td class=""><a class="text-info" href="<?php echo base_url('index.php/admin/pegawai/detail/'.$data->id_pegawai) ?>"><?php echo strtoupper($data->nama_pegawai); ?></a></td>
-										<td class=""><?php echo $data->nip; ?></td>
-										<td class=""><?php echo $data->nip_lama; ?></td>
-										<td class=""><?php echo substr(strtolower($data->alamat),0,25) ; ?> ...</td>
-										<td class="text-center"><?php echo $data->nama_status; ?></td>
+										<td class=""><a class="text-info" href="<?php echo base_url('index.php/admin/pegawai/detail/'.$data['id_pegawai']) ?>"><?php echo strtoupper($data['nama_pegawai']); ?></a></td>
+										<td class=""><?php echo $data['nip']; ?></td>
+										<td><?php echo @$this->Admin_m->detail_data_order('master_satuan_kerja','id_satuan_kerja',$data['id_satuan_kerja'])->nama_satuan_kerja; ?></td>
+										<td class="text-center"><?php echo $data['nama_status']; ?></td>
 										<td class="">
-											<a href="<?php echo base_url('index.php/admin/pegawai/delete_pegawai/'.$data->id_pegawai) ?>" class="text-danger"><img src="<?php echo base_url('asset/img/icons8-trash-can.svg') ?>" width="30" height="30"></a>
+											<a href="<?php echo base_url('index.php/admin/pegawai/delete_pegawai/'.$data['id_pegawai']) ?>" class="text-danger"><img src="<?php echo base_url('asset/img/icons8-trash-can.svg') ?>" width="30" height="30"></a>
 										</td>
 									</tr>
 									<?php $no++ ?>
@@ -67,7 +79,7 @@
 						</table>
 					</font>
 				</div>
-				<?php echo $pagging; ?>
+				<?php echo $pagination; ?>
 			</div>
 		</div>
 	</div>
@@ -112,11 +124,11 @@
 							</div>
 							<div class="form-group">
 								<label class="text-info" for="nomor_kk">Nomor Kartu Keluarga</label>
-								<input type="text" class="form-control border-dark" id="NO_KK" name="nomor_kk" placeholder="Nomor Kartu Keluarga"">
+								<input type="text" class="form-control border-dark" id="NO_KK" name="nomor_kk" placeholder="Nomor Kartu Keluarga">
 							</div>
 							<div class="form-group">
 								<label class="text-info" for="no_ktp">Nomor KTP</label>
-								<input type="text" class="form-control border-dark" id="nomor_ktp" name="nomor_ktp" placeholder="Nomor KTP"">
+								<input type="text" class="form-control border-dark" id="nomor_ktp" name="nomor_ktp" placeholder="Nomor KTP">
 							</div>
 							<div class="form-group">
 								<label class="text-info" for="no_npwp">NPWP</label>
@@ -254,3 +266,28 @@
 					</div>
 				</div>
 			</div>
+<div class="modal fade" id="excel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<form action="<?php echo base_url('index.php/admin/pegawai/uploadexcel') ?>" enctype="multipart/form-data" method="post">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Upload Data</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>File Excel</label>
+						<input type="file" class="form-control" name="fileupload" placeholder="Masukan bahan bakar" value="Bensin">
+						<small class="form-text text-muted">Hanya dapat menggunakan format .xls</small>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+					<button type="submit" name="submit" value="submit" class="btn btn-primary">Upload File Excel</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

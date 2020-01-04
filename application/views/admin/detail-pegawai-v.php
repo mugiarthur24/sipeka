@@ -30,6 +30,7 @@
 								<div class="title">Pilih File Foto</div>
 								<input type="file" name="fotop" id="uploadBtn"></br>
 								<input type="hidden" name="id_pegawai" value="<?php echo $hasil->id_pegawai;?>">
+								<span>Ukuran File Maks. 2 MB</span>
 							</div>
 							<div class="col">
 								<div class="title">Simpan Perubahan</div>

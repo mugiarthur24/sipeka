@@ -8,74 +8,90 @@ class Pegawai extends CI_Controller {
         $this->load->model('admin/Pegawai_m');
         $this->load->library('resize');
     }
-    public function index($offset=0){
+    public function index($rowno=0){
         if ($this->ion_auth->logged_in()) {
-            $level = array('admin','members');
+            $level = array('admin');
             if (!$this->ion_auth->in_group($level)) {
                 $pesan = 'Anda tidak memiliki Hak untuk Mengakses halaman ini';
                 $this->session->set_flashdata('message', $pesan );
-                redirect(base_url('index.php/admin/dashboard'));
+                redirect(base_url('index.php/dashboard'));
             }else{
-                $post = $this->input->get();
+                $post = $this->input->post();
                 $data['title'] = $this->Admin_m->info_pt(1)->nama_info_pt;
                 $data['infopt'] = $this->Admin_m->info_pt(1);
                 $data['brand'] = 'asset/img/lembaga/'.$this->Admin_m->info_pt(1)->logo_pt;
                 $data['users'] = $this->ion_auth->user()->row();
                 $data['aside'] = 'nav/nav';
                 $data['page'] = 'admin/pegawai-v';
-                if (!$this->ion_auth->in_group('skpd')) {
-                    $jumlah = $this->Pegawai_m->jumlah_data(@$post['string'],@$post['skpd']);
-                }else{
-                    $jumlah = $this->Pegawai_m->jumlah_data(@$post['string'],$this->ion_auth->user()->row()->id_mhs_pt);
+                if ($this->ion_auth->in_group($level)) {
+                    $data['dtpt'] = $this->Admin_m->select_data('info_pt');
                 }
-                $config['base_url'] = base_url().'/index.php/admin/pegawai/index/';
-                $config['total_rows'] = $jumlah;
-                $config['per_page'] = '10';
-                $config['first_page'] = 'Awal';
-                $config['last_page'] = 'Akhir';
-                $config['next_page'] = '&laquo;';
-                $config['prev_page'] = '&raquo;';
-                // bootstap style
-                $config['first_link']       = 'Pertama';
-                $config['last_link']        = 'Terakhir';
-                $config['next_link']        = 'Selanjutnya';
-                $config['prev_link']        = 'Sebelumnya';
-                $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination justify-content-center">';
-                $config['full_tag_close']   = '</ul></nav></div>';
-                $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
-                $config['num_tag_close']    = '</span></li>';
-                $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
-                $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
-                $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
-                $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
-                $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
-                $config['prev_tagl_close']  = '</span>Next</li>';
-                $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
-                $config['first_tagl_close'] = '</span></li>';
-                $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
-                $config['last_tagl_close']  = '</span></li>';
-                //inisialisasi config
-                $this->pagination->initialize($config);
-                $data['skpd'] = $this->Pegawai_m->select_data('master_lokasi_kerja');
-                $data['status'] = $this->Pegawai_m->select_data('master_status_pegawai');
-                $data['agama'] = $this->Pegawai_m->select_data('master_agama');
-                $data['skpd'] = $this->Pegawai_m->select_data('master_satuan_kerja');
-                $data['golongan'] = $this->Pegawai_m->select_data('master_golongan');
-                $data['eselon'] = $this->Pegawai_m->select_data('master_eselon');
-                $data['pangkat'] = $this->Pegawai_m->select_data('master_pangkat');
-                $data['sjabatan'] = $this->Pegawai_m->select_data('master_status_jabatan');
-
-                // pengaturan searching
-                $data['jmldata'] = $jumlah;
-                $data['nmr'] = $offset;
-                if (!$this->ion_auth->in_group('skpd')) {
-                    $data['hasil'] = $this->Pegawai_m->searcing_data($config['per_page'],$offset,@$post['string'],@$post['skpd']);
-                }else{
-                    $data['hasil'] = $this->Pegawai_m->searcing_data($config['per_page'],$offset,@$post['string'],@$this->ion_auth->user()->row()->id_mhs_pt);
-                }
+                $data['page'] = 'admin/pegawai-v';
+                   $search_text = "";
+                   if($post == TRUE ){
+                       $search_text = $post;
+                       $this->session->set_userdata($post);
+                   }else{
+                       $post = array();
+                       if($this->session->userdata('string') != NULL){
+                        $post['string'] = $this->session->userdata('string');
+                       }
+                       if($this->session->userdata('id_satuan_kerja') != NULL){
+                        $post['id_satuan_kerja'] = $this->session->userdata('id_satuan_kerja');
+                       }
+                       $search_text = $post;
+                   }
+                   // Row per page
+                   $rowperpage = 10;
+                   // Row position
+                   if($rowno != 0){
+                     $rowno = ($rowno-1) * $rowperpage;
+                 }
+                   $allcount = $this->Pegawai_m->getrecordCount($search_text);
+                   // Get records
+                   $users_record = $this->Pegawai_m->getData($rowno,$rowperpage,$search_text);
                 
-                $data['pagging'] = $this->pagination->create_links();
-                // pagging setting
+                // Pagination Configuration
+                 $config['base_url'] = base_url().'/index.php/admin/pegawai/index/';
+                 $config['use_page_numbers'] = TRUE;
+                 $config['total_rows'] = $allcount;
+                 $config['per_page'] = $rowperpage;
+                 // style pagging
+                 $config['first_link']       = 'Pertama';
+                 $config['last_link']        = 'Terakhir';
+                 $config['next_link']        = 'Selanjutnya';
+                 $config['prev_link']        = 'Sebelumnya';
+                 $config['full_tag_open']    = '<div class="pagging text-center"><nav><ul class="pagination pagination-sm justify-content-center">';
+                 $config['full_tag_close']   = '</ul></nav></div>';
+                 $config['num_tag_open']     = '<li class="page-item"><span class="page-link">';
+                 $config['num_tag_close']    = '</span></li>';
+                 $config['cur_tag_open']     = '<li class="page-item active"><span class="page-link">';
+                 $config['cur_tag_close']    = '<span class="sr-only">(current)</span></span></li>';
+                 $config['next_tag_open']    = '<li class="page-item"><span class="page-link">';
+                 $config['next_tagl_close']  = '<span aria-hidden="true">&raquo;</span></span></li>';
+                 $config['prev_tag_open']    = '<li class="page-item"><span class="page-link">';
+                 $config['prev_tagl_close']  = '</span>Next</li>';
+                 $config['first_tag_open']   = '<li class="page-item"><span class="page-link">';
+                 $config['first_tagl_close'] = '</span></li>';
+                 $config['last_tag_open']    = '<li class="page-item"><span class="page-link">';
+                 $config['last_tagl_close']  = '</span></li>';
+                // Initialize
+                 $this->pagination->initialize($config);
+                 $data['skpd'] = $this->Pegawai_m->select_data('master_lokasi_kerja');
+                 $data['status'] = $this->Pegawai_m->select_data('master_status_pegawai');
+                 $data['agama'] = $this->Pegawai_m->select_data('master_agama');
+                 $data['skpd'] = $this->Pegawai_m->select_data('master_satuan_kerja');
+                 $data['golongan'] = $this->Pegawai_m->select_data('master_golongan');
+                 $data['eselon'] = $this->Pegawai_m->select_data('master_eselon');
+                 $data['pangkat'] = $this->Pegawai_m->select_data('master_pangkat');
+                 $data['sjabatan'] = $this->Pegawai_m->select_data('master_status_jabatan');
+                 $data['hasil'] = $users_record;
+                 $data['row'] = $rowno;
+                 $data['jmldata'] = $allcount;
+                 $data['search'] = $search_text;
+                 $data['post'] = $search_text;
+                 $data['pagination'] = $this->pagination->create_links();
+                 // echo "<pre>";print_r($search_text);echo "</pre>";exit();
                 $this->load->view('admin/dashboard-v',$data);
             }
         }else{
@@ -562,7 +578,7 @@ class Pegawai extends CI_Controller {
 
                 $additional_data = array(
                     'first_name' => $post['nama_pegawai'],
-                    'last_name' => 'Butonkab',
+                    'last_name' => 'Busel',
                     'company' => $this->Admin_m->info_pt(1)->nama_info_pt,
                     'phone' => '123456789',
                     'repassword' => $password,
@@ -2326,6 +2342,131 @@ public function ctk_pegawaiperpendidikan(){
             $this->session->set_flashdata('message', $pesan );
             redirect(base_url('index.php/login'));
         }
+    }
+    function uploadexcel(){
+      $post = $this->input->post();
+      if (!is_dir('asset/upload/')) {
+          mkdir('asset/upload/');
+      }
+      if (!preg_match("/.(xls|xlsx)$/i", $_FILES["fileupload"]["name"]) ) {
+
+          echo "pastikan file yang anda pilih xls|xlsx";
+          exit();
+
+      } else {
+          move_uploaded_file($_FILES["fileupload"]["tmp_name"],'asset/upload/'.$_FILES['fileupload']['name']);
+          $semester = array("fileupload"=>$_FILES["fileupload"]["name"]);
+
+      }
+      $objPHPExcel = PHPExcel_IOFactory::load('asset/upload/'.$_FILES['fileupload']['name']);
+      $data = $objPHPExcel->getActiveSheet()->toArray();
+      $error_count = 0;
+      $error = array();
+      $sukses = 0;
+      foreach ($data as $key => $val) {
+        if ($key>0){
+            if ($val[0]!='') {
+                $ceknip = $this->Admin_m->detail_data_order('data_pegawai','nip',trim(filter_var($val[2], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH)));
+                if ($ceknip == TRUE) {
+                    $dataupdate = array(
+                        'nama_pegawai' =>filter_var($val[1], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'tempat_lahir' =>filter_var($val[3], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'tanggal_lahir' =>filter_var($val[4], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'tmt_cpns' =>filter_var($val[5], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'tmt_pns' =>filter_var($val[6], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'jenis_kelamin' =>filter_var($val[7], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'agama' =>filter_var($val[8], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'id_satuan_kerja' =>filter_var($val[9], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'status_pegawai' =>filter_var($val[10], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),   
+                    );
+                    $this->Admin_m->update('data_pegawai','id_pegawai',$ceknip->id_pegawai,$dataupdate);
+                }else{
+                    $carijk = $this->Admin_m->cari_jk(filter_var($val[7], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH));
+                    if ($carijk == TRUE) {
+                        $jk = $carijk->id_jk;
+                    }else{
+                        $newjk = array(
+                            'id_jk'=>filter_var($val[7], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                            'kode_jk'=>filter_var($val[7], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                            'nm_jk'=>filter_var($val[7], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        );
+                        $this->Admin_m->create('jk',$newjk);
+                        $new_jk = $this->Admin_m->cari_jk(filter_var($val[7], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH));
+                        $jk = $new_jk->id_jk;
+                    }
+                    $cariagama = $this->Admin_m->cari_agama(filter_var($val[8], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH));
+                    if ($cariagama == TRUE) {
+                        $agama = $cariagama->id_agama;
+                    }else{
+                        $newagama = array(
+                            'id_agama'=>filter_var($val[8], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                            'nm_agama'=>filter_var($val[8], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        );
+                        $this->Admin_m->create('master_agama',$newagama);
+                        $new_agama = $this->Admin_m->cari_agama(filter_var($val[8], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH));
+                        $agama = $new_agama->id_agama;
+                    }
+                    $cariskpd = $this->Admin_m->cari_skpd(filter_var($val[9], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH));
+                    if ($cariskpd == TRUE) {
+                        $skpd = $cariskpd->id_satuan_kerja;
+                    }else{
+                        $newskpd = array(
+                            'id_satuan_kerja'=>filter_var($val[9], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                            'nama_satuan_kerja'=>filter_var($val[9], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                            'parent_unit'=>filter_var($val[9], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                            'alamat'=>filter_var($val[9], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        );
+                        $this->Admin_m->create('master_satuan_kerja',$newskpd);
+                        $new_skpd = $this->Admin_m->cari_skpd(filter_var($val[9], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH));
+                        $skpd = $new_skpd->id_satuan_kerja;
+                    }
+                    $caristatus = $this->Admin_m->cari_status(filter_var($val[10], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH));
+                    if ($caristatus == TRUE) {
+                        $status = $caristatus->id_status_pegawai;
+                    }else{
+                        $newstatus = array(
+                            'id_status_pegawai'=>filter_var($val[10], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                            'nama_status'=>filter_var($val[10], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        );
+                        $this->Admin_m->create('master_status_pegawai',$newstatus);
+                        $new_status = $this->Admin_m->cari_status(filter_var($val[10], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH));
+                        $status = $new_status->id_status_pegawai;
+                    }
+                    $data = array(
+                        'nama_pegawai' =>filter_var($val[1], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'nip' =>preg_replace("/[^0-9]/", "",trim(filter_var($val[2], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH))),
+                        'tempat_lahir' =>filter_var($val[3], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'tanggal_lahir' =>filter_var($val[4], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'tmt_cpns' =>filter_var($val[5], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'tmt_pns' =>filter_var($val[6], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'jenis_kelamin' =>$jk,
+                        'agama' =>$agama,
+                        'id_satuan_kerja' =>$skpd,
+                        'status_pegawai' =>$status,   
+                    );
+                    $this->Admin_m->create('data_pegawai',$data);
+                    // membuat user
+                    $infopt = $this->Admin_m->info_pt(1);
+                    $username = preg_replace("/[^0-9]/", "",trim(filter_var($val[2], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH)));
+                    $email = strtolower(url_title(filter_var($val[1], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH).'@buselkab.go.id'));
+                    $password = 'password';
+                    $group = array('2');
+                    $additional_data = array(
+                        'first_name' => filter_var($val[1], FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW|FILTER_FLAG_STRIP_HIGH),
+                        'last_name' => $infopt->nama_info_pt,
+                        'company' => $infopt->nama_info_pt,
+                        'phone' => '123456789',
+                        'repassword' => $password,
+                        );
+                    $this->ion_auth->register($username, $password, $email, $additional_data, $group);
+                }  
+            }
+        }
+    }
+    unlink("asset/upload/".$_FILES['fileupload']['name']);
+    $msg = 'Data berhasil di upload';
+    $this->session->set_flashdata('message', $msg);
+    redirect(base_url('index.php/admin/pegawai/'));
     }
 
 }

@@ -18,6 +18,9 @@ class Admin_m extends CI_Model
 		$rs = $this->db->count_all_results();
 		return $rs;
 	}
+	function create($table,$data){
+		$this->db->insert($table,$data);
+	}
 	public function jml_data($table,$field,$id){
 		$this->db->from($table);
 		$this->db->where($field,$id);
@@ -291,5 +294,25 @@ class Admin_m extends CI_Model
 			$this->db->limit($limit);
 		}
 		return $query->result();
+	}
+	public function cari_jk($cari){
+		$this->db->like('nm_jk', $cari);
+		$query = $this->db->get('jk');
+		return $query->row();
+	}
+	public function cari_agama($cari){
+		$this->db->like('nm_agama', $cari);
+		$query = $this->db->get('master_agama');
+		return $query->row();
+	}
+	public function cari_skpd($cari){
+		$this->db->like('nama_satuan_kerja', $cari);
+		$query = $this->db->get('master_satuan_kerja');
+		return $query->row();
+	}
+	public function cari_status($cari){
+		$this->db->like('id_status_pegawai', $cari);
+		$query = $this->db->get('master_status_pegawai');
+		return $query->row();
 	}
 }

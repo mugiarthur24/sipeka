@@ -72,20 +72,24 @@
               </a>
             </li>
             <li class="nav-item dropdown hidden-caret">
-              <a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              </a>
+              <span><?php echo $users->first_name; ?></span>
             </li>
           </li>
           <li class="nav-item dropdown hidden-caret">
+
             <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
               <div class="avatar-sm">
                 <?php if ($this->ion_auth->is_admin()): ?>
                   <img src="<?php echo base_url('asset/img/users/'.$users->profile) ?>" alt="<?php echo $users->profile;?>" class="avatar-img rounded-circle">
+
                   <?php else: ?>
                     <img src="<?php echo base_url('asset/img/pegawai/'.$this->Admin_m->detail_data_order('data_pegawai','id_pegawai',$users->id_pegawai)->foto) ?>" alt="<?php echo $users->profile;?>" class="avatar-img rounded-circle">
                   <?php endif ?>
+
                 </div>
+
               </a>
+
               <ul class="dropdown-menu dropdown-user animated fadeIn">
                 <div class="dropdown-user-scroll scrollbar-outer">
                   <li>
@@ -99,19 +103,29 @@
                         </div>
                         <div class="u-text">
                           <h4>Selamat Datang</h4>
-                          <p class="text-muted"><?php echo $users->first_name; ?></p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                          <p class="text-muted"><?php echo $users->first_name; ?></p>
                         </div>
                       </div>
                     </li>
                     <li>
+                       <?php if ($this->ion_auth->is_admin()): ?>
+                       <!--  <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">My Profile</a> -->
+                        <?php else: ?>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">My Profile</a>
+                      <a class="dropdown-item" href="<?php echo base_url('index.php/admin/pegawai/detail/'.$users->id_pegawai) ?>">My Profile</a>
+                      <?php endif ?>
+                      <?php if ($this->ion_auth->is_admin()): ?>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Account Setting</a>
+                      <a class="dropdown-item" href="<?php echo base_url('index.php/admin/users/') ?>">Account Setting</a>
+                      <?php else: ?>
+                        <a class="dropdown-item" href="<?php echo base_url('index.php/admin/users/edit/'.$users->id) ?>">Account Setting</a>
+                        <?php endif ?>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="<?php echo base_url('index.php/login/logout/') ?>">Logout</a>
                     </li>
                   </div>
+                  
                 </ul>
               </li>
             </ul>
